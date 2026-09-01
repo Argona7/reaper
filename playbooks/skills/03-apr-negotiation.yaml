@@ -1,0 +1,13 @@
+name: apr-negotiation
+version: 1
+objective: Obtain the lowest available APR and written terms without changing the account silently.
+sequence:
+  - initial_retention_review
+  - supervisor_escalation
+  - written_terms_confirmation
+invariants:
+  - every outbound message requires approval
+  - never claim hardship unless the operator explicitly provides it
+  - never authorize account closure, product change, or credit inquiry implicitly
+  - require a reference number and written terms
+

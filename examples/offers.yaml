@@ -1,0 +1,8 @@
+balance_transfer_offers:
+  - provider: "Example Credit Union"
+    promo_apr_basis_points: 0
+    promo_months: 12
+    fee_basis_points: 146
+    max_transfer_cents: 610000
+    offer_url: "https://example.invalid/offer"
+

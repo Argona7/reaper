@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Reaper scythe mark">
+  <rect width="160" height="160" rx="28" fill="#090b0b"/>
+  <path d="M55 127V44c0-7 5-12 12-12s12 5 12 12v83" fill="none" stroke="#edf3f0" stroke-width="10" stroke-linecap="round"/>
+  <path d="M72 38c29-14 57-8 72 7-31-1-49 10-65 33" fill="none" stroke="#c8ff48" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M42 128h51" stroke="#edf3f0" stroke-width="10" stroke-linecap="round"/>
+</svg>
+

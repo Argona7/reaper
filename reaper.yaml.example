@@ -1,0 +1,52 @@
+owner:
+  name: "Operator"
+  timezone: "America/New_York"
+  report_hour: 21
+
+agent:
+  name: "Reaper"
+  model: "grok-4"
+  currency: "USD"
+  database: ".reaper/reaper.sqlite3"
+  evidence_dir: ".reaper/evidence"
+
+approval:
+  require_for:
+    - send_email
+    - cancel_service
+    - submit_dispute
+    - transfer_balance
+    - make_payment
+    - publish_listing
+    - edit_listing
+    - delete_listing
+    - spend
+  auto_allow:
+    - read
+    - analyze
+    - calculate
+    - draft
+    - report
+  approval_ttl_minutes: 60
+  payment_cap_cents: 0
+
+debt:
+  issuer: "Example Bank"
+  account_last4: "4242"
+  starting_balance_cents: 840000
+  current_balance_cents: 791200
+  apr_basis_points: 2699
+  minimum_payment_cents: 22000
+  statement_day: 7
+
+connectors:
+  gmail:
+    enabled: false
+    sender: "me"
+    token_file: ".reaper/google-token.json"
+  telegram:
+    enabled: false
+  ebay:
+    enabled: false
+    marketplace_id: "EBAY_US"
+

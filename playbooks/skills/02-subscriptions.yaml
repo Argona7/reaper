@@ -1,0 +1,13 @@
+name: subscriptions
+version: 1
+objective: Find stable recurring charges and prepare cancellation actions.
+signals:
+  monthly_gap_days: [25, 35]
+  annual_gap_days: [350, 380]
+  minimum_occurrences: 2
+  maximum_amount_variance: 0.15
+invariants:
+  - cancellation always requires operator approval
+  - preserve evidence for the latest four occurrences
+  - do not cancel utilities, insurance, housing, or debt payments from pattern alone
+

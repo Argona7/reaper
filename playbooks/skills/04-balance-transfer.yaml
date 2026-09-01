@@ -1,0 +1,15 @@
+name: balance-transfer
+version: 1
+objective: Compare transfer fee and promo interest against expected interest on the current balance.
+required_fields:
+  - provider
+  - promo_apr_basis_points
+  - promo_months
+  - fee_basis_points
+  - max_transfer_cents
+invariants:
+  - show the complete savings calculation
+  - verify post-promo APR and deadline
+  - transfer submission always requires operator approval
+  - no application or hard inquiry may be initiated automatically
+

@@ -1,0 +1,17 @@
+name: statement-audit
+version: 1
+objective: Build a complete transaction map before proposing an action.
+inputs:
+  - csv
+  - ofx
+  - qfx
+  - text_pdf
+outputs:
+  - normalized_transactions
+  - monthly_spend_baseline
+  - anomaly_candidates
+invariants:
+  - never infer an amount from an unreadable row
+  - retain source file, page or line, and transaction fingerprint
+  - treat every anomaly as review-required evidence, not fraud
+

@@ -1,0 +1,12 @@
+services:
+  reaper:
+    build: .
+    command: ["serve", "--host", "0.0.0.0", "--port", "8787", "--config", "/config/reaper.yaml"]
+    ports:
+      - "8787:8787"
+    env_file:
+      - .env
+    volumes:
+      - ./reaper.yaml:/config/reaper.yaml:ro
+      - ./.reaper:/config/.reaper
+    restart: unless-stopped

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{ agent }} · debt operations</title>
+    <link rel="stylesheet" href="/static/app.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <div>
+          <p class="eyebrow">DEBT OPERATIONS / LIVE</p>
+          <h1>{{ agent }}</h1>
+        </div>
+        <span class="status"><i></i> online</span>
+      </header>
+
+      <section class="hero-grid">
+        <article class="metric primary">
+          <span>current debt</span>
+          <strong>${{ "{:,.2f}".format(report.debt_balance_cents / 100) }}</strong>
+          <small>${{ "{:,.2f}".format(report.principal_reduced_cents / 100) }} principal killed</small>
+        </article>
+        <article class="metric">
+          <span>recurring savings</span>
+          <strong>${{ "{:,.2f}".format(report.recurring_savings_cents / 100) }}</strong>
+          <small>per month found</small>
+        </article>
+        <article class="metric">
+          <span>projected zero</span>
+          <strong>{{ report.projected_zero_date or "—" }}</strong>
+          <small>based on current plan</small>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">HUMAN GATE</p>
+            <h2>Pending approvals</h2>
+          </div>
+          <span class="counter">{{ pending|length }}</span>
+        </div>
+        {% if pending %}
+          <div class="action-list">
+            {% for action in pending %}
+              <article class="action">
+                <div class="action-top">
+                  <span class="verb">{{ action.verb.value }}</span>
+                  <span class="risk {{ action.risk.value }}">{{ action.risk.value }}</span>
+                </div>
+                <h3>{{ action.title }}</h3>
+                <p>{{ action.evidence|join(" · ") }}</p>
+                <pre>{{ action.payload | tojson(indent=2) }}</pre>
+                <form method="post" action="/actions/{{ action.id }}/decision">
+                  <input type="hidden" name="actor" value="operator" />
+                  <button name="decision" value="reject" class="secondary">Reject</button>
+                  <button name="decision" value="approve">Approve</button>
+                </form>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="empty">No side effects are waiting for approval.</p>
+        {% endif %}
+      </section>
+
+      <footer>
+        <span>{{ counts.transactions }} transactions</span>
+        <span>{{ counts.opportunities }} opportunities</span>
+        <span>{{ counts.actions_succeeded }} executed</span>
+      </footer>
+    </main>
+  </body>
+</html>
+

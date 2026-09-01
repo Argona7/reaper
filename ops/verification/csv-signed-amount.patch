@@ -1,0 +1,13 @@
+--- baseline/csv_statement.py
++++ src/reaper/parsers/csv_statement.py
+@@ -99,8 +99,8 @@
+ 
+                 if amount_key:
+                     signed = _money_to_cents(row.get(amount_key))
+-                    amount_cents = -signed if signed < 0 else signed
+-                    raw_sign = "negative-is-expense" if signed < 0 else "positive-is-expense"
++                    amount_cents = -signed
++                    raw_sign = "signed-card-export"
+                 else:
+                     debit = abs(_money_to_cents(row.get(debit_key))) if debit_key else 0
+                     credit = abs(_money_to_cents(row.get(credit_key))) if credit_key else 0

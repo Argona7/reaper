@@ -1,0 +1,58 @@
+REAPER CSV SIGNED-AMOUNT CHANGE VERIFICATION
+============================================
+
+CHANGED BRANCH/FIELD
+- Branch: CSVStatementParser.parse() / single signed `amount` column.
+- Field: Transaction.amount_cents.
+- Baseline behavior: negative purchases became positive expenses, but positive card payments also became positive expenses.
+- Modified behavior: `amount_cents = -signed`; negative purchases become positive expenses and positive payments/credits become negative ledger entries.
+- Metadata field changed from conditional `negative-is-expense|positive-is-expense` to `signed-card-export`.
+
+FOUR ARTIFACT PATHS
+- MODIFIED_FILE: /Users/argona/dev/reaper/src/reaper/parsers/csv_statement.py
+- DIFF_FILE: /Users/argona/dev/reaper/ops/verification/csv-signed-amount.patch
+- VERIFICATION.txt: /Users/argona/dev/reaper/ops/verification/VERIFICATION.txt
+- ROLLBACK.sh: /Users/argona/dev/reaper/ops/verification/ROLLBACK.sh
+
+PRESERVED ORIGINAL
+- Baseline copy: /Users/argona/dev/reaper/ops/verification/baseline/csv_statement.py
+- SHA-256: 953f26c9ef70c0ed7aa7cbd2755585cde11109af13b3f8a6c0bf8510ef81e72b
+- Modified SHA-256: 8501e16078d85d4fc16fd25a4842d5bb702a7b4fd6fcef6f1e4cccb8276f46ba
+
+INPUT (literal /tmp/reaper-csv-verification.csv)
+Date,Description,Amount
+2026-01-02,NETFLIX,-15.49
+2026-01-04,PAYMENT,500.00
+
+BASELINE
+Command:
+uv run python /Users/argona/dev/reaper/ops/verification/check_csv_branch.py /Users/argona/dev/reaper/ops/verification/baseline/csv_statement.py /tmp/reaper-csv-verification.csv
+Literal output:
+AMOUNTS=[1549, 50000]
+CONVENTIONS=['negative-is-expense', 'positive-is-expense']
+Exit status: 0
+Result: baseline behavior reproduced; the +$500.00 payment was incorrectly represented as +50000 expense cents.
+
+MODIFIED
+Command:
+uv run python /Users/argona/dev/reaper/ops/verification/check_csv_branch.py /Users/argona/dev/reaper/src/reaper/parsers/csv_statement.py /tmp/reaper-csv-verification.csv
+Literal output:
+AMOUNTS=[1549, -50000]
+CONVENTIONS=['signed-card-export', 'signed-card-export']
+Exit status: 0
+Result: modified behavior verified; the -$15.49 purchase is +1549 expense cents and the +$500.00 payment is -50000 credit cents.
+
+ROLLBACK (tested on another copy; MODIFIED_FILE remains changed)
+Commands:
+cp /Users/argona/dev/reaper/src/reaper/parsers/csv_statement.py /tmp/reaper-rollback-csv_statement.py
+/Users/argona/dev/reaper/ops/verification/ROLLBACK.sh /tmp/reaper-rollback-csv_statement.py
+uv run python /Users/argona/dev/reaper/ops/verification/check_csv_branch.py /tmp/reaper-rollback-csv_statement.py /tmp/reaper-csv-verification.csv
+Literal rollback-script output:
+restored=/tmp/reaper-rollback-csv_statement.py
+Rollback-script exit status: 0
+Literal behavior output after rollback:
+AMOUNTS=[1549, 50000]
+CONVENTIONS=['negative-is-expense', 'positive-is-expense']
+Behavior-check exit status: 0
+Restored SHA-256: 953f26c9ef70c0ed7aa7cbd2755585cde11109af13b3f8a6c0bf8510ef81e72b
+Restored behavior/status: baseline payment-sign behavior restored on the separate copy; rollback succeeded. The repository MODIFIED_FILE still has the corrected signed-card behavior.

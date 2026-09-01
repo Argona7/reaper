@@ -1,0 +1,13 @@
+name: charge-dispute
+version: 1
+objective: Assemble an evidence packet for a charge that the operator identifies as incorrect.
+candidate_signals:
+  - same_merchant_same_amount_within_three_days
+  - merchant_credit_missing_after_refund_deadline
+  - operator_supplied_unauthorized_charge
+invariants:
+  - duplicate detection is a candidate, not a factual accusation
+  - retain both transaction fingerprints and evidence files
+  - operator must attest to the dispute reason before submission
+  - submission always requires approval
+

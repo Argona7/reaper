@@ -1,0 +1,27 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+.demo-reaper/
+data/
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.key
+*.pem
+*.session
+credentials.json
+token.json
+* 2.*

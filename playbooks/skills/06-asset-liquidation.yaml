@@ -1,0 +1,16 @@
+name: asset-liquidation
+version: 1
+objective: Convert an operator-selected unused asset into an approved marketplace listing.
+required_fields:
+  - title
+  - description
+  - condition
+  - category_id
+  - price_cents
+  - photo_paths
+invariants:
+  - the operator chooses the asset
+  - verify photos, price, shipping, returns, and payout account
+  - publication and every later edit require approval
+  - never list financial accounts, identity documents, regulated goods, or borrowed property
+

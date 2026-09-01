@@ -1,0 +1,11 @@
+assets:
+  - name: "PlayStation 5 Disc Edition"
+    category_id: "139971"
+    condition: "USED_EXCELLENT"
+    description: "Owned by the seller, tested, reset, and ready to ship. Includes controller and power cable."
+    estimated_price_cents: 38900
+    photo_paths:
+      - "/absolute/path/to/front.jpg"
+      - "/absolute/path/to/ports.jpg"
+    sku: "reaper-ps5-001"
+

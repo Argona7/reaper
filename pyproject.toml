@@ -1,0 +1,86 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reaper-debt-agent"
+version = "0.1.0"
+description = "An open-source debt operations agent that finds savings, drafts negotiations, and executes approved actions."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Argona" }]
+keywords = ["agent", "debt", "personal-finance", "grok", "automation"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+  "apscheduler>=3.10.4,<4",
+  "fastapi>=0.115",
+  "google-api-python-client>=2.160",
+  "google-auth-oauthlib>=1.2",
+  "httpx>=0.28",
+  "jinja2>=3.1",
+  "keyring>=25.6",
+  "openai>=1.68",
+  "pydantic>=2.10",
+  "pydantic-settings>=2.7",
+  "pypdf>=5.3",
+  "python-dateutil>=2.9",
+  "python-multipart>=0.0.20",
+  "pyyaml>=6.0",
+  "rich>=13.9",
+  "typer>=0.15",
+  "uvicorn>=0.34",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.15",
+  "pip-audit>=2.8",
+  "pytest>=8.3",
+  "pytest-asyncio>=0.25",
+  "pytest-cov>=6.0",
+  "respx>=0.22",
+  "ruff>=0.9",
+  "types-PyYAML>=6.0",
+  "types-python-dateutil>=2.9",
+]
+
+[project.scripts]
+reaper = "reaper.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/Argona7/reaper"
+Repository = "https://github.com/Argona7/reaper"
+Issues = "https://github.com/Argona7/reaper/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/reaper"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"playbooks" = "reaper/playbooks"
+"reaper.yaml.example" = "reaper/reaper.yaml.example"
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers --disable-warnings"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["B008"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["reaper"]
+warn_unused_ignores = true
